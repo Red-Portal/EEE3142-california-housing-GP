@@ -2,9 +2,7 @@
 using CUDA
 using Distributions
 using KernelFunctions
-using Krylov
 using LinearAlgebra
-using LinearOperators
 using ProgressMeter
 using Random
 using DelimitedFiles
