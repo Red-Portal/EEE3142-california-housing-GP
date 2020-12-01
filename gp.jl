@@ -6,7 +6,6 @@ using LinearAlgebra
 using ProgressMeter
 using Random
 using DelimitedFiles
-#using Plots
 
 include("util.jl")
 
@@ -87,9 +86,10 @@ function train_gp(X, y, k, logℓ, logσ, logϵ)
     K  = kernelmatrix(kard, X, obsdim=2)
     K += ϵ²*I
 
+    K_dev = CUDA.CuArray{Float32}(K)
     try
-        cholesky!(K)
-        U   = UpperTriangular(K)
+        cholesky!(K_dev)
+        U   = UpperTriangular(Array{Float64}(K))
         α   = U' \ (U \ y)
         t1  = dot(y, α) / -2
         t2  = -sum(log.(diag(U)))
@@ -118,8 +118,6 @@ function predict_gp(α::Matrix, θ::Matrix, X_data::Matrix, k, X_in::Matrix)
     end
     μ = mean(μs)
 end
-
-using GaussianProcesses
 
 function train_gp(prng, X_train, y_train, X_test, y_test)
     # 114 < longitude           < 124
