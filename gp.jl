@@ -147,21 +147,22 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
     nsamples   = 200
     nburn      = 100
     dims       = size(X_train,1)
-    prior_logℓ = [Normal(log(10/2),    log(10/2)),
-                  Normal(log(10/2),    log(10/2)),
-                  Normal(log(1000/2),  log(1000/2)),
-                  Normal(log(99/2),    log(99/2)),
-                  Normal(log(99/2),    log(99/2)),
-                  Normal(log(40e+6/2), log(40e+6/2)),
-                  Normal(log(10e+6/2), log(10e+6/2)),
-                  Normal(log(100/2),   log(100/2)),
-                  Normal(log(3/2),     log(3/2))
+
+    σℓ = log(4)
+    prior_logℓ = [Normal(log(10/2),    σℓ),
+                  Normal(log(10/2),    σℓ),
+                  Normal(log(1000/2),  σℓ),
+                  Normal(log(99/2),    σℓ),
+                  Normal(log(99/2),    σℓ),
+                  Normal(log(40e+6/2), σℓ),
+                  Normal(log(10e+6/2), σℓ),
+                  Normal(log(100/2),   σℓ),
+                  Normal(log(3/2),     σℓ)
                   ]
     prior_logσ = Normal(10, 5)
     prior_logϵ = Normal(10, 5)
 
     logℓ0 = log.([10/2, 10/2, 1000/2, 99/2, 99/2, 40e+6/2, 10e+6/2, 100/2, 3/2])
-    #logℓ0  = log.([0.01])
     logσ0 = log(10.0)
     logϵ0 = log(10.0)
     θ0    = vcat(logℓ0, logσ0, logϵ0)
