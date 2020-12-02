@@ -86,13 +86,14 @@ function train_gp(X, y, k, logℓ, logσ, logϵ)
     K  = kernelmatrix(kard, X, obsdim=2)
     K += ϵ²*I
 
-    K_dev = CUDA.CuArray{Float32}(K)
+    K_dev = K |> CUDA.CuArray{Float32}
+    y_dev = y |> CUDA.CuArray{Float32}
     try
-        cholesky!(K_dev)
-        U   = UpperTriangular(Array{Float64}(K))
-        α   = U' \ (U \ y)
+        chol = cholesky!(K_dev)
+        α    = chol.U \ (chol.L \ y_dev) |> Array{Float64}
+
         t1  = dot(y, α) / -2
-        t2  = -sum(log.(diag(U)))
+        t2  = -sum(log.(Array(diag(chol.U))))
         t3  = -size(K,1) / 2 * log(2*π)
         mll = t1+t2+t3
         α, mll 
@@ -130,8 +131,8 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
     # 0   < median_income (10k) < 100,    Δ = 100
     # 1   < ocean_proximity     < 4,      Δ = 3
 
-    # X_train = X_train[:,1:100]
-    # y_train = y_train[1:100]
+    #X_train = X_train[:,1:100]
+    #y_train = y_train[1:100]
     # k  = Mat52Ard(10.0*ones(9), 100.0)
     # set_priors!(k, [Normal(0.0, 10000.0) for i = 1:10])
     # gp = GP(X_train,y_train, MeanZero(), k, 100.0)       #Fit the GP
