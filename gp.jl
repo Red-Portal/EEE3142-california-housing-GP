@@ -120,24 +120,22 @@ function predict_gp(α::Matrix, θ::Matrix, X_data::Matrix, k, X_in::Matrix)
 end
 
 function train_gp(prng, X_train, y_train, X_test, y_test)
-    # 114 < longitude           < 124
-    # 32  < latitude            < 42 
-    # 0   < housing_median_age  < 1000
-    # 1   < total_rooms         < 100
-    # 1   < total_bedrooms      < 100
-    # 10  < population          < 40e+6
-    # 0   < households          < 10e+6
-    # 0   < median_income (10k) < 100
-    # 1   < ocean_proximity     < 4
+    # 114 < longitude           < 124,    Δ = 10
+    # 32  < latitude            < 42,     Δ = 10
+    # 0   < housing_median_age  < 1000,   Δ = 1000
+    # 1   < total_rooms         < 100,    Δ = 99
+    # 1   < total_bedrooms      < 100,    Δ = 99
+    # 10  < population          < 40e+6,  Δ ≈ 40e+6
+    # 0   < households          < 10e+6,  Δ ≈ 10e+6
+    # 0   < median_income (10k) < 100,    Δ = 100
+    # 1   < ocean_proximity     < 4,      Δ = 3
 
     # X_train = X_train[:,1:100]
     # y_train = y_train[1:100]
-
     # k  = Mat52Ard(10.0*ones(9), 100.0)
     # set_priors!(k, [Normal(0.0, 10000.0) for i = 1:10])
     # gp = GP(X_train,y_train, MeanZero(), k, 100.0)       #Fit the GP
     # set_priors!(gp.logNoise, [Normal(0.0,100.0)])
-
     # θ = optimize!(gp)
     # display(θ)
     # println(GaussianProcesses.get_params(gp))
@@ -149,21 +147,20 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
     nsamples   = 200
     nburn      = 100
     dims       = size(X_train,1)
-    prior_logℓ = [Normal(124,      10),
-                  Normal(42,       10),
-                  Normal(100,     500),
-                  Normal(50,      100),
-                  Normal(50,      100),
-                  Normal(100,     100), #Normal(10e+6, 20e+6),
-                  Normal(100,     100),#Normal(1e+6,  10e+6),
-                  Normal(100,     100),
-                  Normal(2,         2)
+    prior_logℓ = [Normal(log(10/2),    log(10/2)),
+                  Normal(log(10/2),    log(10/2)),
+                  Normal(log(1000/2),  log(1000/2)),
+                  Normal(log(99/2),    log(99/2)),
+                  Normal(log(99/2),    log(99/2)),
+                  Normal(log(40e+6/2), log(40e+6/2)),
+                  Normal(log(10e+6/2), log(10e+6/2)),
+                  Normal(log(100/2),   log(100/2)),
+                  Normal(log(3/2),     log(3/2))
                   ]
-    #prior_logℓ = [Normal(-1e+2, 1e+2)]
     prior_logσ = Normal(10, 5)
     prior_logϵ = Normal(10, 5)
 
-    logℓ0 = log.([100, 40, 500, 50, 50, 20e+6, 5e+6, 50, 2])
+    logℓ0 = log.([10/2, 10/2, 1000/2, 99/2, 99/2, 40e+6/2, 10e+6/2, 100/2, 3/2])
     #logℓ0  = log.([0.01])
     logσ0 = log(10.0)
     logϵ0 = log(10.0)
