@@ -66,7 +66,6 @@ function ess(prng, θ0, X, y, k, nsamples, nburn,
         ProgressMeter.next!(prog;
                             showvalues = [(:iter, i),
                                           (:mll,  mll_cur),
-                                          (:rmse, rmse),
                                           (:acc,  1 / num_props)])
     end
     θ_post, α_post
