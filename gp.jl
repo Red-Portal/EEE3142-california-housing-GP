@@ -18,9 +18,6 @@ function ess(prng, θ0, X, y, k, nsamples, nburn,
         logℓ = θ_in[1:length(prior_logℓ)]
         logσ = θ_in[length(prior_logℓ)+1]
         logϵ = θ_in[length(prior_logℓ)+2]
-        #logℓ = θ_in[1]
-        #logσ = θ_in[2]
-        #logϵ = θ_in[3]
 
         α, mll = train_gp(X, y, k, logℓ, logσ, logϵ)
         α, mll
@@ -69,6 +66,7 @@ function ess(prng, θ0, X, y, k, nsamples, nburn,
         ProgressMeter.next!(prog;
                             showvalues = [(:iter, i),
                                           (:mll,  mll_cur),
+                                          (:rmse, rmse),
                                           (:acc,  1 / num_props)])
     end
     θ_post, α_post
@@ -79,8 +77,7 @@ function train_gp(X, y, k, logℓ, logσ, logϵ)
     σ²  = exp(logσ*2) 
     ϵ²  = exp(logϵ*2) 
 
-    #ard  = ARDTransform(ℓinv)
-    ard  = ScaleTransform(ℓinv)
+    ard  = ARDTransform(ℓinv)
     kard = σ² * TransformedKernel(k, ard)
 
     K  = kernelmatrix(kard, X, obsdim=2)
@@ -131,34 +128,27 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
     # 0   < median_income (10k) < 100,    Δ = 100
     # 1   < ocean_proximity     < 4,      Δ = 3
 
-    #X_train = X_train[:,1:100]
-    #y_train = y_train[1:100]
-    # k  = Mat52Ard(10.0*ones(9), 100.0)
-    # set_priors!(k, [Normal(0.0, 10000.0) for i = 1:10])
-    # gp = GP(X_train,y_train, MeanZero(), k, 100.0)       #Fit the GP
-    # set_priors!(gp.logNoise, [Normal(0.0,100.0)])
-    # θ = optimize!(gp)
-    # display(θ)
-    # println(GaussianProcesses.get_params(gp))
-    # #display(plot(θ'))
-    # #display(Chains(reshape(θ', (:,11,1))))
-    # throw()
+    # X_test  = X_train[:,300:400]
+    # y_test  = y_train[300:400]
+    # X_train = X_train[:,1:200]
+    # y_train = y_train[1:200]
 
     k          = Matern52Kernel()
     nsamples   = 200
     nburn      = 100
     dims       = size(X_train,1)
 
-    σℓ = log(4)
-    prior_logℓ = [Normal(log(10/2),    σℓ),
-                  Normal(log(10/2),    σℓ),
-                  Normal(log(1000/2),  σℓ),
-                  Normal(log(99/2),    σℓ),
-                  Normal(log(99/2),    σℓ),
-                  Normal(log(40e+6/2), σℓ),
-                  Normal(log(10e+6/2), σℓ),
-                  Normal(log(100/2),   σℓ),
-                  Normal(log(3/2),     σℓ)
+    σℓ = log(2.0)
+    α  = 0.5
+    prior_logℓ = [Normal(log(10 * α),    σℓ),
+                  Normal(log(10 * α),    σℓ),
+                  Normal(log(1000 * α),  σℓ*4),
+                  Normal(log(99 * α),    σℓ*4),
+                  Normal(log(99 * α),    σℓ*4),
+                  Normal(log(40e+6 * α), σℓ*4),
+                  Normal(log(10e+6 * α), σℓ*4),
+                  Normal(log(100 * α),   σℓ*4),
+                  Normal(log(3 * α),     σℓ)
                   ]
     prior_logσ = Normal(10, 5)
     prior_logϵ = Normal(10, 5)
@@ -170,11 +160,14 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
 
     θ_post, α_post = ess(prng, θ0, X_train, y_train, k, nsamples, nburn,
                          prior_logℓ, prior_logσ, prior_logϵ)
+    # display(plot(θ_post[:,:]'))
+    # display(MCMCChains.Chains(reshape(θ_post', (:,11,1))))
 
-    #display(plot(θ_post[:,:]'))
-    #display(plot(θ_post[11,:]))
-    #display(Chains(reshape(θ_post', (:,3,1))))
-    #throw()
+    # μ = predict_gp(α_post, θ_post, X_train, k, X_train)
+    # println(sqrt(mean((μ - y_train).^2)))
+    # μ = predict_gp(α_post, θ_post, X_train, k, X_test)
+    # println(sqrt(mean((μ - y_test).^2)))
+    # throw()
     θ_post, α_post
 end
 
