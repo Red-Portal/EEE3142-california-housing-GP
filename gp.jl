@@ -141,20 +141,20 @@ function train_gp(prng, X_train, y_train, X_test, y_test)
     α  = 0.5
     prior_logℓ = [Normal(log(10 * α),    σℓ),
                   Normal(log(10 * α),    σℓ),
-                  Normal(log(1000 * α),  σℓ*4),
-                  Normal(log(99 * α),    σℓ*4),
-                  Normal(log(99 * α),    σℓ*4),
-                  Normal(log(40e+6 * α), σℓ*4),
-                  Normal(log(10e+6 * α), σℓ*4),
-                  Normal(log(100 * α),   σℓ*4),
-                  Normal(log(3 * α),     σℓ)
+                  Normal(log(1000 * α),  σℓ),
+                  Normal(log(99 * α),    σℓ*2),
+                  Normal(log(99 * α),    σℓ*2),
+                  Normal(log(40e+6 * α), σℓ),
+                  Normal(log(10e+6 * α), σℓ),
+                  Normal(log(100 * α),   σℓ*2),
+                  Normal(log(3 * α),     σℓ*2)
                   ]
-    prior_logσ = Normal(10, 5)
-    prior_logϵ = Normal(10, 5)
+    prior_logσ = Normal(10, 1)
+    prior_logϵ = Normal(10, 1)
 
     logℓ0 = log.([10/2, 10/2, 1000/2, 99/2, 99/2, 40e+6/2, 10e+6/2, 100/2, 3/2])
-    logσ0 = log(10.0)
-    logϵ0 = log(10.0)
+    logσ0 = 10.0
+    logϵ0 = 10.0
     θ0    = vcat(logℓ0, logσ0, logϵ0)
 
     θ_post, α_post = ess(prng, θ0, X_train, y_train, k, nsamples, nburn,
