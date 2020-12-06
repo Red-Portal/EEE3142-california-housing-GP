@@ -1,0 +1,59 @@
+\begin{thebibliography}{7}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\ifx\endbibitem\undefined \let\endbibitem\relax\fi
+
+\bibitem[{Bezanson et~al.(2017)Bezanson, Edelman, Karpinski, and
+  Shah}]{bezanson_julia_2017}
+Bezanson, J., Edelman, A., Karpinski, S., and Shah, V.~B. (2017).
+\newblock \enquote{Julia: {{A}} Fresh Approach to Numerical Computing.}
+\newblock {\em SIAM Rev.\/}, 59(1): 65--98.
+\endbibitem
+
+\bibitem[{Geyer(1992)}]{geyer_practical_1992}
+Geyer, C.~J. (1992).
+\newblock \enquote{Practical {{Markov Chain Monte Carlo}}.}
+\newblock {\em Statist. Sci.\/}, 7(4): 473--483.
+\endbibitem
+
+\bibitem[{Kingma and Ba(2017)}]{kingma_adam_2017}
+Kingma, D.~P. and Ba, J. (2017).
+\newblock \enquote{Adam: {{A Method}} for {{Stochastic Optimization}}.}
+\newblock {\em arXiv:1412.6980 [cs]\/}.
+\endbibitem
+
+\bibitem[{Murphy(2012)}]{murphy_machine_2012}
+Murphy, K.~P. (2012).
+\newblock {\em Machine Learning: A Probabilistic Perspective\/}.
+\newblock Adaptive Computation and Machine Learning Series. {Cambridge,
+  Massachusetts London, England}: {The MIT Press}.
+\endbibitem
+
+\bibitem[{Murray et~al.(2010)Murray, Adams, and
+  MacKay}]{murray_elliptical_2010}
+Murray, I., Adams, R., and MacKay, D. (2010).
+\newblock \enquote{Elliptical Slice Sampling.}
+\newblock In {\em Proceedings of the {{Thirteenth International Conference}} on
+  {{Artificial Intelligence}} and {{Statistics}}\/}, volume~9 of {\em
+  Proceedings of {{Machine Learning Research}}\/}, 541--548. {Chia Laguna
+  Resort, Sardinia, Italy}: {PMLR}.
+\endbibitem
+
+\bibitem[{Neal(1996)}]{neal_bayesian_1996}
+Neal, R.~M. (1996).
+\newblock {\em Bayesian {{Learning}} for {{Neural Networks}}\/}, volume 118 of
+  {\em Lecture {{Notes}} in {{Statistics}}\/}.
+\newblock {New York, NY}: {Springer New York}.
+\endbibitem
+
+\bibitem[{Rasmussen and Williams(2006)}]{rasmussen_gaussian_2006}
+Rasmussen, C.~E. and Williams, C. K.~I. (2006).
+\newblock {\em Gaussian Processes for Machine Learning\/}.
+\newblock Adaptive {{Comput}}. {{Mach}}. {{Learn}}. {Cambridge, Mass}: {MIT
+  Press}.
+\endbibitem
+
+\end{thebibliography}
