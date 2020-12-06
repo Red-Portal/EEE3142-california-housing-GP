@@ -1,5 +1,5 @@
 
-\documentclass[ba]{imsart}
+\documentclass[ba, 11pt]{imsart}
 %
 %\pubyear{0000}
 %\volume{00}
@@ -485,10 +485,19 @@ K-fold cross-validation을 수행한 결과를 Table~\ref{table:cv}에서 볼 �
       MLP & 114,027 & 116,850 & 117,282 & 116,483 & 116,044 & 116,137 \\
       GP  & \textbf{46,116}	& \textbf{48,864}  & \textbf{53,973} &  \textbf{48,337}  & \textbf{47,800}  & \textbf{49,018}
       \\ \bottomrule
-
     \end{tabular}
   \end{threeparttable}
 \end{table*}
+
+\paragraph{한계}
+GP의 학습 및 예측 성능은 매우 뛰어나다는 것은 알 수 있으나, 한계들이 존재한다.
+학습의 경우, 데이터셋에 있는 데이터의 갯수 \(N\)에 대해서 \(\mathcal{O}(N^3)\)만큼의 복잡도를 가진다.
+따라서, 큰 데이터셋의 경우 계산량이 굉장히 커지게 된다.
+이번 프로젝트의 경우 \(N = 16,000\)정도인데, 계산 시간을 줄이기 위해 GPU를 활용해야 했다.
+문제는 GPU를 활용했는데도 fold 1개를 학습하는데 3시간 정도가 소요됐다.
+이는 MLP를 batch size 32로 학습 시킬 때 20분 정도가 소요된 것과 비교할 때 매우 긴 시간이다.
+GP의 scalability를 극복하기 위해서는 많은 연구들~\citep{hensman_mcmc_2015, yu_stochastic_2017, wang_exact_2019}이 이뤄지고 있다.
+미래에 GP의 계산량이 deep learning 기반 방법들과 비슷한 수준으로 내려온다면, 많은 machine learning 문제들이 GP로 해결될 것으로 기대된다.
 
 \bibliographystyle{ba}
 \bibliography{references}

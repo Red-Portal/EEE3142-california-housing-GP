@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{10}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -17,6 +17,15 @@ Bezanson, J., Edelman, A., Karpinski, S., and Shah, V.~B. (2017).
 Geyer, C.~J. (1992).
 \newblock \enquote{Practical {{Markov Chain Monte Carlo}}.}
 \newblock {\em Statist. Sci.\/}, 7(4): 473--483.
+\endbibitem
+
+\bibitem[{Hensman et~al.(2015)Hensman, Matthews, Filippone, and
+  Ghahramani}]{hensman_mcmc_2015}
+Hensman, J., Matthews, A. G. d.~G., Filippone, M., and Ghahramani, Z. (2015).
+\newblock \enquote{{{MCMC}} for {{Variationally Sparse Gaussian Processes}}.}
+\newblock In {\em Proceedings of the 28th {{International Conference}} on
+  {{Neural Information Processing Systems}} - {{Volume}} 1\/}, {{NIPS}}'15,
+  1648--1656. {Cambridge, MA, USA}: {MIT Press}.
 \endbibitem
 
 \bibitem[{Kingma and Ba(2017)}]{kingma_adam_2017}
@@ -54,6 +63,21 @@ Rasmussen, C.~E. and Williams, C. K.~I. (2006).
 \newblock {\em Gaussian Processes for Machine Learning\/}.
 \newblock Adaptive {{Comput}}. {{Mach}}. {{Learn}}. {Cambridge, Mass}: {MIT
   Press}.
+\endbibitem
+
+\bibitem[{Wang et~al.(2019)Wang, Pleiss, Gardner, Tyree, Weinberger, and
+  Wilson}]{wang_exact_2019}
+Wang, K.~A., Pleiss, G., Gardner, J.~R., Tyree, S., Weinberger, K.~Q., and
+  Wilson, A.~G. (2019).
+\newblock \enquote{Exact {{Gaussian Processes}} on a {{Million Data Points}}.}
+\newblock {\em ArXiv190308114 Cs Stat\/}.
+\endbibitem
+
+\bibitem[{Yu et~al.(2017)Yu, Hoang, Low, and Jaillet}]{yu_stochastic_2017}
+Yu, H., Hoang, T.~N., Low, K.~H., and Jaillet, P. (2017).
+\newblock \enquote{Stochastic {{Variational Inference}} for {{Bayesian Sparse
+  Gaussian Process Regression}}.}
+\newblock {\em ArXiv171100221 Cs Stat\/}.
 \endbibitem
 
 \end{thebibliography}
